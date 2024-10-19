@@ -6,6 +6,7 @@
 ![Ảnh chụp](https://github.com/dunglv202-dev/techmaster-cinema/blob/main/assets/4.png?raw=true)
 ![Ảnh chụp](https://github.com/dunglv202-dev/techmaster-cinema/blob/main/assets/5.png?raw=true)
 ![Ảnh chụp](https://github.com/dunglv202-dev/techmaster-cinema/blob/main/assets/6.png?raw=true)
+![Ảnh chụp](https://github.com/dunglv202-dev/techmaster-cinema/blob/main/assets/7.png?raw=true)
 
 # Hướng dẫn cài đặt và chạy chương trình thủ công
 
