@@ -27,19 +27,29 @@ git submodule update
   - Thêm thiết lập sau vào file cấu hình nginx và chạy lệnh `nginx -s reload` để áp dụng cấu hình
 
     ```
-    location /api {
-        proxy_pass http://localhost:8080/api;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
+    server {
+        listen       		80;
+        server_name  		localhost;
 
-    location / {
-        proxy_pass http://localhost:5173;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        location /api {
+            proxy_pass                          http://localhost:8080/api;
+            proxy_set_header Host               $host;
+            proxy_set_header X-Real-IP          $remote_addr;
+            proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto  $scheme;
+        }
+
+        location / {
+            proxy_pass                          http://localhost:5173;
+            proxy_set_header Host               $host;
+            proxy_set_header X-Real-IP          $remote_addr;
+            proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto  $scheme;
+        }
     }
     ```
+
+# Chú ý
+
+- Để sử dụng data sẵn có, cần phải thiết lập `spring.sql.init.mode=always` tại `application.yaml` hoặc `application-local.yaml` trong lần đầu khởi chạy backend
+- Với dữ liệu test hiện tại chỉ đang có 2 lịch chiếu phim Joker vào ngày 20/10 tại Hà Nội, phim At Cafe 6 ngày 25/10 tại Hồ Chí Minh
