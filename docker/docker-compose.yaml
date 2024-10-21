@@ -1,0 +1,51 @@
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template
+    ports:
+      - "80:80"
+    restart: always
+
+  db:
+    image: mysql:8.4.0
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    restart: always
+
+  adminer:
+    image: adminer
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
+    ports:
+      - "81:8080"
+    restart: always
+
+  backend:
+    image: dunglv202/techmaster-cinema-be
+    build:
+      context: ../backend
+    environment:
+      - DB_HOST=db
+      - DB_NAME=techmaster
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - VNPAY_TMN_CODE=${VNPAY_TMN_CODE}
+      - VNPAY_SECRET_KEY=${VNPAY_SECRET_KEY}
+      - VNPAY_PAYMENT_URL=${VNPAY_PAYMENT_URL}
+      - VNPAY_CALLBACK_URL=${VNPAY_CALLBACK_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    restart: always
+    depends_on:
+      - db
+
+  frontend:
+    image: dunglv202/techmaster-cinema-fe
+    build:
+      context: ../frontend
+    restart: always
+
+volumes:
+  db_data:
